@@ -3,42 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crepe Editor Test</title>
-    <script type="module">
-        import { Crepe } from '@milkdown/crepe';
-        import '@milkdown/crepe/theme/common/style.css';
-        import '@milkdown/crepe/theme/frame.css';
-
-        const crepe = new Crepe({
-            root: document.getElementById("app"),
-            defaultValue: "Hello, Milkdown!\n\nThis is a test of the Crepe editor.\n\nTry writing some markdown:\n\n- Bullet points\n- More items\n\n1. Numbered lists\n2. Work too\n\n**Bold text** and *italic text*",
-        });
-
-        crepe.create().then(() => {
-            console.log("Editor created");
-        });
-
-        // Clean up on page unload
-        window.addEventListener('beforeunload', () => {
-            crepe.destroy();
-        });
-    </script>
+    <title>Crepe Editor with Raw Markdown</title>
     <style>
         body {
             margin: 0;
             padding: 20px;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
-        #app {
-            max-width: 800px;
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
             margin: 0 auto;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        }
+        #app {
+            flex: 1;
             min-height: 500px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 20px;
+        }
+        #raw-markdown {
+            flex: 1;
+            min-height: 500px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 20px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            background-color: #f5f5f5;
+            overflow-y: auto;
         }
     </style>
 </head>
 <body>
-    <div id="app"></div>
+    <div class="container">
+        <div id="app"></div>
+        <pre id="raw-markdown"></pre>
+    </div>
+
+    <script type="module">
+        import { Crepe } from '@milkdown/crepe';
+        import "@milkdown/crepe/theme/common/style.css";
+        import "@milkdown/crepe/theme/frame.css";
+
+        const defaultValue = `# Welcome to Crepe Editor
+
+This is a simple example of markdown syntax.
+
+## Features
+
+- **Bold text**
+- *Italic text*
+- ~~Strikethrough~~
+- \`Inline code\`
+
+### Code Block
+
+\`\`\`javascript
+console.log('Hello, World!');
+\`\`\`
+
+> Blockquote example
+
+1. Ordered list
+2. With multiple items
+
+- [ ] Todo item
+- [x] Completed item
+
+[Link example](https://example.com)`;
+
+        const crepe = new Crepe({
+            root: document.getElementById('app'),
+            defaultValue,
+        });
+
+        // Function to update raw markdown display
+        function updateRawMarkdown() {
+            const markdown = crepe.getMarkdown();
+            document.getElementById('raw-markdown').textContent = markdown;
+        }
+
+        // Create editor and set up listeners
+        crepe.create().then(() => {
+            console.log('Editor created');
+            updateRawMarkdown(); // Initial update
+            
+            // Listen for markdown updates
+            crepe.on((listener) => {
+                listener.markdownUpdated(() => {
+                    updateRawMarkdown();
+                });
+            });
+        });
+
+        // Clean up on page unload
+        window.addEventListener('unload', () => {
+            crepe.destroy();
+        });
+    </script>
 </body>
 </html> 
