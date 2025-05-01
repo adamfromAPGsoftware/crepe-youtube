@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crepe Editor Test</title>
+    <script type="module">
+        import { Crepe } from '@milkdown/crepe';
+        import '@milkdown/crepe/theme/common/style.css';
+        import '@milkdown/crepe/theme/frame.css';
+
+        const crepe = new Crepe({
+            root: document.getElementById("app"),
+            defaultValue: "Hello, Milkdown!\n\nThis is a test of the Crepe editor.\n\nTry writing some markdown:\n\n- Bullet points\n- More items\n\n1. Numbered lists\n2. Work too\n\n**Bold text** and *italic text*",
+        });
+
+        crepe.create().then(() => {
+            console.log("Editor created");
+        });
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            crepe.destroy();
+        });
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        #app {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html> 

@@ -1,0 +1,17 @@
+{
+  "name": "crepe-test",
+  "version": "1.0.0",
+  "description": "Test project for Crepe editor",
+  "main": "test.html",
+  "scripts": {
+    "dev": "vite --port 8080",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@milkdown/crepe": "^7.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.1.0"
+  }
+} 
