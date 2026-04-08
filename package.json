@@ -12,6 +12,6 @@
     "@milkdown/crepe": "^7.0.0"
   },
   "devDependencies": {
-    "vite": "^5.1.0"
+    "vite": "^8.0.5"
   }
 } 
